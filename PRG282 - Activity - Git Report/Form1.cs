@@ -17,5 +17,9 @@ namespace PRG282___Activity___Git_Report
             InitializeComponent();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
