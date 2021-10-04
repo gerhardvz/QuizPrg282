@@ -20,10 +20,13 @@ namespace PRG282___Activity___Git_Report
 
         private void button1_Click(object sender, EventArgs e)
         {
-         try
+            string strExeFilePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string strWorkPath = Path.GetDirectoryName(strExeFilePath);
+           string userDataFile = Path.Combine(strWorkPath, "..\\UserData.txt");
+            try
             {
-                List<string> users = ReadFile("UserData.txt");
-                listBox1.Items.Add(users);
+                List<string> users = ReadFile(userDataFile);
+                listBox1.DataSource=users;
             }
             catch (Exception ex)
             {
@@ -32,22 +35,23 @@ namespace PRG282___Activity___Git_Report
         }
          public List<string> ReadFile(string filepath)
         {
+            if (Directory.Exists(filepath))
+                throw new Exception("File \"" + filepath + "\" does not Exist");
+
             FileStream file = new FileStream(filepath, FileMode.Open);
             StreamReader reader = new StreamReader(file);
             List<string> users = new List<string>();
-            if (Directory.Exists(filepath))
-            {
+            
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
                     users.Add(line);
                 }
-                reader.Close();
-                file.Close();
-                return users;
-            }
-            else
-                throw new Exception("File \"" + filepath + "\" does not Exist");
+
+          
+            reader.Close();
+            file.Close();
+            return users;
 
         }
     }
